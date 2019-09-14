@@ -1,0 +1,149 @@
+---
+title: 使用Hexo搭建个人博客
+date: 2019-09-14 15:22:24
+tags: [Hexo,Node.js]
+---
+
+## 安装Node.js和Hexo
+
+参照Hexo官网教程 [https://hexo.io/docs/#Install-Node-js](https://hexo.io/docs/#Install-Node-js)
+
+```bash
+wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
+nvm install stable
+npm install -g hexo-cli
+```
+
+## 创建你的博客
+
+参照 [https://hexo.io/docs/setup](https://hexo.io/docs/setup)
+
+```bash
+hexo init sundoge.github.io
+```
+
+我使用的`hexo-cli` 版本为`2.0.0` ，会自动拉取默认主题`landscape` 。后面将引入[hexo-theme-next](https://github.com/theme-next/hexo-theme-next) 。
+
+## 使用Git管理你的博客
+
+Hexo的设计有个矛盾的地方，theme有自己的config文件，而且不会merge到顶层的config，导致你很难用git管理你的theme。如果你按照theme-next的官方文档install，就相当于在git仓库里面创建另git仓库，git是没法管理到仓库里面的仓库的。但是如果单纯使用git submodule，修改theme里面的_config.yml也是没法用git管理的。所以一个折中的方案是，先fork一份你要的主题，比如[SunDoge/hexo-theme-next](https://github.com/SunDoge/hexo-theme-next) ，然后add submodule
+
+```bash
+git submodule add git@github.com:SunDoge/hexo-theme-next.git themes/next
+```
+
+这样theme和博客都能被管理到。如果需要更新theme，只需要运行
+
+> [https://stackoverflow.com/questions/5828324/update-git-submodule-to-latest-commit-on-origin](https://stackoverflow.com/questions/5828324/update-git-submodule-to-latest-commit-on-origin)
+
+```bash
+git submodule foreach git pull origin master
+```
+
+这个命令会更新所有的submodule。
+
+## 使用theme-next
+
+修改顶层`_config.yml`
+
+```yaml
+# Extensions
+## Plugins: https://hexo.io/plugins/
+## Themes: https://hexo.io/themes/
+# theme: landscape
+theme: next
+```
+
+修改theme里面的_config.yml
+
+>  themes/next/_config.yml
+
+```yaml
+# Schemes
+# scheme: Muse
+scheme: Mist
+#scheme: Pisces
+#scheme: Gemini
+```
+
+###  开启math支持
+
+> [https://github.com/theme-next/hexo-theme-next/blob/master/docs/MATH.md](https://github.com/theme-next/hexo-theme-next/blob/master/docs/MATH.md)
+
+```yaml
+# Math Formulas Render Support
+math:
+  enable: true
+
+  # Default (true) will load mathjax / katex script on demand.
+  # That is it only render those page which has `mathjax: true` in Front-matter.
+  # If you set it to false, it will load mathjax / katex srcipt EVERY PAGE.
+  per_page: true
+
+  # hexo-renderer-pandoc (or hexo-renderer-kramed) required for full MathJax support.
+  mathjax:
+    enable: true
+    # See: https://mhchem.github.io/MathJax-mhchem/
+    mhchem: false
+
+  # hexo-renderer-markdown-it-plus (or hexo-renderer-markdown-it with markdown-it-katex plugin) required for full Katex support.
+  katex:
+    enable: false
+    # See: https://github.com/KaTeX/KaTeX/tree/master/contrib/copy-tex
+    copy_tex: false
+```
+
+我暂时使用mathjax，如果实在太慢，后面再换成katex。这里还需要替换默认的render。
+
+```shell
+npm un hexo-renderer-marked --save
+npm i hexo-renderer-pandoc --save # or hexo-renderer-kramed
+```
+
+这里不用kramed的原因是它最后一次更新在2017年。还需要安装pandoc
+
+> [https://github.com/jgm/pandoc/blob/master/INSTALL.md](https://github.com/jgm/pandoc/blob/master/INSTALL.md)
+
+安装pandoc这点让我很不满意，使用Hexo已经要安装很多东西了（node_modules），为了mathjax还要整个pandoc。
+
+## 部署
+
+> [https://hexo.io/docs/deployment.html#Git](https://hexo.io/docs/deployment.html#Git)
+
+```bash
+npm install hexo-deployer-git --save
+```
+
+```yaml
+# Deployment
+## Docs: https://hexo.io/docs/deployment.html
+deploy:
+  - type: git
+    repo: git@github.com:SunDoge/sundoge.github.io.git
+    branch: published
+```
+
+然后在github上新建一个branch名为published
+
+> [https://help.github.com/en/articles/creating-and-deleting-branches-within-your-repository](https://help.github.com/en/articles/creating-and-deleting-branches-within-your-repository)
+
+并把它设为default branch。然后执行
+
+```bash
+hexo clean && hexo deploy
+```
+
+编译好的文件会推送的published分支。
+
+## 为什么使用Hexo
+
+Hugo虽然性能好，但是大部分主题年久失修，而且质量都不高，从jekyll和hexo移植的主题也大多有问题，缺少原有的部分功能。最后没办法，还是要用前端写的工具。
+
+为了方便以后的写作，我计划使用Rust开发一个hexo-cli的子集，只支持theme-next的正确编译🕊🕊🕊​。
+
+
+
+
+
+
+
