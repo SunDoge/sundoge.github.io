@@ -5,3 +5,7 @@ tags: ["Linux", "Manjaro"]
 ---
 
 > [https://forum.manjaro.org/t/how-to-run-manjaro-on-windows-10-hyper-v-gen2/54092/20](https://forum.manjaro.org/t/how-to-run-manjaro-on-windows-10-hyper-v-gen2/54092/20)
+
+![xrdp](https://i.loli.net/2019/09/15/PFraGJk26T1WjVC.png)
+
+[https://forum.manjaro.org/t/installing-manjaro-in-hyper-v-with-enhanced-session-support/79394](https://forum.manjaro.org/t/installing-manjaro-in-hyper-v-with-enhanced-session-support/79394)
