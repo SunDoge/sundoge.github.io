@@ -82,7 +82,3 @@ deploy:
   - type: git
     repo: git@github.com:SunDoge/sundoge.github.io.git
     branch: master
-
-
-theme_config:
-  scheme: Mist
