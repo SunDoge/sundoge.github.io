@@ -6,6 +6,7 @@
     "version": "5.0.0"
   },
   "dependencies": {
+    "glup": "^1.0.14",
     "hexo": "^5.0.0",
     "hexo-deployer-git": "^2.0.0",
     "hexo-generator-archive": "^0.1.5",
@@ -13,8 +14,8 @@
     "hexo-generator-index": "^0.2.1",
     "hexo-generator-tag": "^0.2.0",
     "hexo-renderer-ejs": "^0.3.1",
-    "hexo-renderer-stylus": "^0.3.3",
     "hexo-renderer-marked": "^0.3.2",
+    "hexo-renderer-stylus": "^0.3.3",
     "hexo-server": "^0.3.3",
     "hexo-theme-next": "^8.0.0-rc.4"
   }
