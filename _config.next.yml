@@ -1,9 +1,10 @@
-scheme: Mist
+scheme: Gemini
 
 valine:
   enable: true
   appid: DPbkCJeWoLr90TX6j8gWpMmL-9Nh9j0Va # Your leancloud application appid
   appkey: IGgrmyUczpU4qob3MddLQca0 # Your leancloud application appkey
+  visitor: true
 
 github_banner:
   enable: true

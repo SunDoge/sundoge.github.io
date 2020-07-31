@@ -25,4 +25,16 @@ theme就配置好了。
 
 下次我将尝试使用github action来自动deploy我的博客。
 
+***
+
+2020-07-31 Update
+
+Hexo 5.0.0支持使用npm配置theme了。以后不需要手动管理版本，只需要
+
+```
+npm i hexo-theme-next --save
+```
+
+目前通过 npm 安装的主题在执行 hexo clean 时会报错，是 Hexo 的已知问题，将在下个版本修复。
+
 [hexo doc]: https://hexo.io/docs/configuration 
