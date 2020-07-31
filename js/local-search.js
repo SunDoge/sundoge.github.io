@@ -1,6 +1,6 @@
 /* global CONFIG */
 
-window.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
   // Popup Window
   let isfetched = false;
   let datas;
@@ -191,7 +191,7 @@ window.addEventListener('DOMContentLoaded', () => {
     if (keywords.length === 1 && keywords[0] === '') {
       resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>';
     } else if (resultItems.length === 0) {
-      resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>';
+      resultContent.innerHTML = '<div id="no-result"><i class="far fa-frown fa-5x"></i></div>';
     } else {
       resultItems.sort((resultLeft, resultRight) => {
         if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
@@ -250,17 +250,16 @@ window.addEventListener('DOMContentLoaded', () => {
   // Handle and trigger popup window
   document.querySelectorAll('.popup-trigger').forEach(element => {
     element.addEventListener('click', () => {
-      document.body.style.overflow = 'hidden';
-      document.querySelector('.search-pop-overlay').classList.add('search-active');
-      input.focus();
+      document.body.classList.add('search-active');
+      // Wait for search-popup animation to complete
+      setTimeout(() => input.focus(), 500);
       if (!isfetched) fetchData();
     });
   });
 
   // Monitor main search box
   const onPopupClose = () => {
-    document.body.style.overflow = '';
-    document.querySelector('.search-pop-overlay').classList.remove('search-active');
+    document.body.classList.remove('search-active');
   };
 
   document.querySelector('.search-pop-overlay').addEventListener('click', event => {
@@ -269,7 +268,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   });
   document.querySelector('.popup-btn-close').addEventListener('click', onPopupClose);
-  window.addEventListener('pjax:success', onPopupClose);
+  document.addEventListener('pjax:success', onPopupClose);
   window.addEventListener('keyup', event => {
     if (event.key === 'Escape') {
       onPopupClose();
