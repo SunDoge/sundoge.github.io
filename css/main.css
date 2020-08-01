@@ -1942,12 +1942,12 @@ pre code {
 }
 @media (min-width: 992px) {
   .post-body {
-    text-align: justify;
+    text-align: justify-all;
   }
 }
 @media (max-width: 991px) {
   .post-body {
-    text-align: justify;
+    text-align: justify-all;
   }
 }
 .post-body h1,
@@ -2851,7 +2851,7 @@ hr {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #ffdf37;
+  background: #1c1d46;
   display: inline-block;
   margin-right: 3px;
   transform: translateY(-2px);
