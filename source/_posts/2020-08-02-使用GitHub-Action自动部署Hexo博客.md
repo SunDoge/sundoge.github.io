@@ -1,9 +1,9 @@
 ---
 title: 使用GitHub Action自动部署Hexo博客
 date: 2020-08-02 00:35:44
-tags:
+tags: 
+  - GitHub Action
 ---
-
 
 基本流程参照[https://github.com/marketplace/actions/hexo-action](https://github.com/marketplace/actions/hexo-action)
 

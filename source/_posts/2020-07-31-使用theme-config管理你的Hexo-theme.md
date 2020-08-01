@@ -1,7 +1,8 @@
 ---
 title: 使用theme_config管理你的Hexo theme
 date: 2020-07-31 01:47:42
-tags: Hexo
+tags:
+  - Hexo
 ---
 
 自Hexo 2.8.2之后[[1]][hexo doc]，Hexo支持使用`theme_config`来配置theme。在这之前，如果我们想要使用git来更新我们theme，同时又想用git管理theme的config，我所知道的唯一一个办法，就是fork一份theme，修改其中的`_config.yml`，再用`git submodule`将fork的theme引入博客仓库中。这个过程比较繁琐。
