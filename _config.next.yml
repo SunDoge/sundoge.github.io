@@ -59,3 +59,11 @@ local_search:
   unescape: false
   # Preload the search data when the page loads.
   preload: false
+
+
+# Google Analytics
+google_analytics:
+  tracking_id: UA-174226804-1 # <app_id>
+  # By default, NexT will load an external gtag.js script on your site.
+  # If you only need the pageview feature, set the following option to true to get a better performance.
+  only_pageview: false
