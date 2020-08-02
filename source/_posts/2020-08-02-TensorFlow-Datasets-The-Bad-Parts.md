@@ -113,4 +113,6 @@ list(dataset.as_numpy_iterator())
 
 ### Data Sharding
 
-在进行 data-parallel distributed training 时，TODO
+在进行 data-parallel distributed training 时，每一个worker（通常是GPU）要对每个batch的一个部分（或者叫`shard`）进行训练。为了处理这个常见的任务，`tf.data`提供了一个看起来完美契合我们要求的方法：[`shard(n, i)`](https://www.tensorflow.org/api_docs/python/tf/data/Dataset#shard)将数据分为n个shards，并返回第i个shard，以便在当前worker中继续处理。
+
+不幸的是，这里存在一个陷阱：TODO
