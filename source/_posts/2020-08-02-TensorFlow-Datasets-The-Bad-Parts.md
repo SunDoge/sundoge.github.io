@@ -14,7 +14,9 @@ tags:
 
 在构建端到端的企业深度学习平台时，工程团队可能会遇到[许多陷阱](https://determined.ai/blog/building-an-enterprise-deep-learning-platform/)。最常见的问题之一涉及数据加载。训练期间的数据加载常常被忽略，但是它可能对吞吐量产生巨大影响。机器学习框架提供了一些抽象，试图让数据加载变得简单直接。但是，在看似简单接口背后可能隐藏了一些令人惊讶的问题。在这篇文章中，我们将带你了解一个常见的数据加载API：[TensorFlow Datasets](https://www.tensorflow.org/api_docs/python/tf/data/Dataset)。
 
+
 ![image.png](https://i.loli.net/2020/08/02/eKtHoD4mk1CyPsr.png)
+
 
 ## Data Loader Patterns
 

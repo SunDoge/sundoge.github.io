@@ -1,4 +1,5 @@
-scheme: Mist
+# scheme: Mist
+scheme: Gemini
 
 # Valine
 # For more information: https://valine.js.org, https://github.com/xCss/Valine
@@ -82,3 +83,18 @@ codeblock:
     enable: true
     # Available values: default | flat | mac
     style:
+
+
+# Easily enable fast Ajax navigation on your website.
+# For more information: https://github.com/next-theme/pjax
+pjax: true
+
+
+# FancyBox is a tool that offers a nice and elegant way to add zooming functionality for images.
+# For more information: https://fancyapps.com/fancybox
+# fancybox: true
+
+# A JavaScript library for zooming images like Medium.
+# Do not enable both `fancybox` and `mediumzoom`.
+# For more information: https://github.com/francoischalifour/medium-zoom
+mediumzoom: true
