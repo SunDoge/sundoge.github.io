@@ -11,8 +11,6 @@ tags:
 
 首先，我们需要生成ssh key pair。最好是专门为这个仓库生成一个pair，因为后面需要上传私钥，如果是本机常用的ssh key pair，会存在一定风险。
 
-将公钥填入`Settings > Deploy Keys`。将私钥填入`Settings > Secrets`，键名设为`DEPLOY_KEY`。
-
 ```bash
 ssh-keygen -t rsa -C "username@example.com"
 ```
@@ -26,6 +24,8 @@ Enter file in which to save the key (/Users/sundoge/.ssh/id_rsa): hexo
 ```
 
 以输入`hexo`为例，在当前目录下得到`hexo`，`hexo.pub`两个文件，前者是私钥，后者是公钥。
+
+将公钥填入`Settings > Deploy Keys`。将私钥填入`Settings > Secrets`，键名设为`DEPLOY_KEY`。这样GitHub Action就可以利用`DEPLOY_KEY`将生成好的静态页面push到部署分支。
 
 ## Step2: 配置GitHub Action
 
