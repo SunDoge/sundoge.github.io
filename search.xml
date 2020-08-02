@@ -100,6 +100,19 @@
       </tags>
   </entry>
   <entry>
+    <title>TensorFlow Datasets: The Bad Parts</title>
+    <url>/2020/08/02/TensorFlow-Datasets-The-Bad-Parts/</url>
+    <content><![CDATA[<p>本文是 <a href="https://determined.ai/blog/tf-dataset-the-bad-parts/">https://determined.ai/blog/tf-dataset-the-bad-parts/</a> 的译文。我在尝试用 TensorFlow 参照 PyTorch 代码复现一些模型的时候也产生了同样的想法。本文仅供个人研究使用。</p>
+<hr>
+<p><strong>TLDR</strong>: TensorFlow 的 <code>tf.data</code> API 是一个常用的将数据加载进深度模型的方法。虽然 <code>tf.data</code> 有很多强大的功能，但是它是围绕顺序读取数据集设计的。这个设计导致它无法高效实现一些功能：shuffle 大数据集，分布式训练时对数据进行分片，实现容错训练（fault-tolerant training）。我们认为，在构建深度学习数据读取 API 时，随机访问应该是需要考虑的关键因素。</p>
+<p>TODO</p>
+]]></content>
+      <tags>
+        <tag>TensorFlow</tag>
+        <tag>Deep Learning</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>使用 GitHub Action 自动部署 Hexo 博客</title>
     <url>/2020/08/02/%E4%BD%BF%E7%94%A8GitHub-Action%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2Hexo%E5%8D%9A%E5%AE%A2/</url>
     <content><![CDATA[<p>基本流程参照 <a href="https://github.com/marketplace/actions/hexo-action">https://github.com/marketplace/actions/hexo-action</a></p>
