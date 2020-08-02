@@ -42,4 +42,73 @@ class RandomAccessDataset(torch.utils.data.Dataset):
 
 ### Sequential Access
 
-TODO
+顺序读取是一种元素必须按预定顺序访问的模式，通常是通过迭代器访问。在Python中，顺序访问通常是通过迭代器和`yield`表达式实现的。
+
+```python
+def sequential_dataset(data: List) -> Iterator:
+    for item in data:
+        yield item
+```
+
+一些深度学习框架，比如早期版本的keras，原生支持将数据输入管道（data input pipeline）表示为Python生成器。类似地，TensorFlow Datasets是围绕顺序数据访问构建的。 Python 生成器转换为 TensorFlow Dataset 非常简单，虽然有点啰嗦：
+
+```python
+import itertools
+
+def gen():
+    for i in itertools.count(1):
+        yield (i, [1] * i)
+
+dataset = tf.data.Dataset.from_generator(
+     gen,
+     (tf.int64, tf.int64),
+     (tf.TensorShape([]), tf.TensorShape([None])))
+```
+
+在下一节中，我们将讨论使用循序访问作为数据加载器的缺点。
+
+## Sequential Access in TensorFlow Datasets
+
+TensorFlow 的 `tf.data` API 以一种优雅的方式简化了数据加载代码的结构：你可以使用lazy initialization的方式将一系列操作串起来。`tf.data` 还提供了helper API 来完成[预读取](https://www.tensorflow.org/api_docs/python/tf/data/Dataset#prefetch)和[并行数据加载](https://www.tensorflow.org/guide/data_performance#parallelizing_data_extraction)等常见任务。
+
+```python
+import tensorflow as tf
+
+
+dataset = tf.data.Dataset.from_tensor_slices([1,2,3])
+
+for element in dataset:
+   print (element)
+>>> tf.Tensor(1, shape=(), dtype=int32)
+>>> tf.Tensor(2, shape=(), dtype=int32)
+>>> tf.Tensor(3, shape=(), dtype=int32)
+
+dataset = dataset.map(lambda x: x*2)
+for element in dataset:
+   print (element)
+>>> tf.Tensor(2, shape=(), dtype=int32)
+>>> tf.Tensor(4, shape=(), dtype=int32)
+>>> tf.Tensor(6, shape=(), dtype=int32)
+```
+
+然而，**TensorFlow Dataset 基本上是围绕顺序访问构建的**：`tf.data` pipeline中的每一个操作，都会迭代他的输入并生成一个顺序的输出流，供下一个操作使用。这个API不支持随机访问，导致在尝试实现一些常见的机器学习工作流时会出现一些重大问题。
+
+```python
+dataset[0]
+>>> TypeError: 'TensorSliceDataset' object does not support indexing
+
+list(dataset.as_numpy_iterator())
+>>> [1,2,3]
+```
+
+### Data Shuffling
+
+在训练一个深度学习模型时，训练集通常在输入模型钱被shuffle，这个操作通常会提升泛化性能。如果我们的数据API只支持顺序访问，要怎样实现random shuffling呢？一个简单但是低效的方法是将尽可能多的数据读入内存并在内存里面shuffle。实际上，这正是`tf.data`的shuffle的做法！
+
+> This dataset fills a buffer with `buffer_size` elements, then randomly samples elements from this buffer, replacing the selected elements with new elements. For perfect shuffling, a buffer size greater than or equal to the full size of the dataset is required.
+
+对于不能完全放入内存的数据集（深度学习中最常见的情况），**`shuffle()`实际上不会shuffle整个数据集**！这意味着`shuffle()`在大多数应用程序中没有达到预期的效果。包括我们在内的很多从业人员都犯了这个错误，并且看到他们模型的泛化性能因此收到影响。虽然可以通过提前将数据读进内存或shuffle文件名列表来实现shuffle整个数据集，但是很多用户可能没有意识到这个他们的代码中存在这个问题！
+
+### Data Sharding
+
+在进行 data-parallel distributed training 时，TODO
