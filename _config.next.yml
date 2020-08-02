@@ -98,3 +98,6 @@ pjax: true
 # Do not enable both `fancybox` and `mediumzoom`.
 # For more information: https://github.com/francoischalifour/medium-zoom
 mediumzoom: true
+
+# Remove unnecessary files after hexo generate.
+minify: true
