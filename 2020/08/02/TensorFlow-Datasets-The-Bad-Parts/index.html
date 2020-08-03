@@ -31,7 +31,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://i.loli.net/2020/08/02/eKtHoD4mk1CyPsr.png">
 <meta property="article:published_time" content="2020-08-02T13:38:08.000Z">
-<meta property="article:modified_time" content="2020-08-03T05:00:51.019Z">
+<meta property="article:modified_time" content="2020-08-03T07:04:59.135Z">
 <meta property="article:author" content="SunDoge">
 <meta property="article:tag" content="TensorFlow">
 <meta property="article:tag" content="Deep Learning">
@@ -212,7 +212,7 @@
 
       <!--noindex-->
       <section class="post-toc-wrap sidebar-panel">
-          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Data-Loader-Patterns"><span class="nav-number">1.</span> <span class="nav-text">Data Loader Patterns</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Random-Access"><span class="nav-number">1.1.</span> <span class="nav-text">Random Access</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sequential-Access"><span class="nav-number">1.2.</span> <span class="nav-text">Sequential Access</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sequential-Access-in-TensorFlow-Datasets"><span class="nav-number">2.</span> <span class="nav-text">Sequential Access in TensorFlow Datasets</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Data-Shuffling"><span class="nav-number">2.1.</span> <span class="nav-text">Data Shuffling</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Data-Sharding"><span class="nav-number">2.2.</span> <span class="nav-text">Data Sharding</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%9D%E5%AD%98%E5%92%8C%E8%BF%98%E5%8E%9F%E8%BF%AD%E4%BB%A3%E5%99%A8%E7%8A%B6%E6%80%81"><span class="nav-number">2.3.</span> <span class="nav-text">保存和还原迭代器状态</span></a></li></ol></li></ol></div>
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Data-Loader-Patterns"><span class="nav-number">1.</span> <span class="nav-text">Data Loader Patterns</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Random-Access"><span class="nav-number">1.1.</span> <span class="nav-text">Random Access</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sequential-Access"><span class="nav-number">1.2.</span> <span class="nav-text">Sequential Access</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sequential-Access-in-TensorFlow-Datasets"><span class="nav-number">2.</span> <span class="nav-text">Sequential Access in TensorFlow Datasets</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Data-Shuffling"><span class="nav-number">2.1.</span> <span class="nav-text">Data Shuffling</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Data-Sharding"><span class="nav-number">2.2.</span> <span class="nav-text">Data Sharding</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%9D%E5%AD%98%E5%92%8C%E8%BF%98%E5%8E%9F%E8%BF%AD%E4%BB%A3%E5%99%A8%E7%8A%B6%E6%80%81"><span class="nav-number">2.3.</span> <span class="nav-text">保存和还原迭代器状态</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">3.</span> <span class="nav-text">解决方案</span></a></li></ol></div>
       </section>
       <!--/noindex-->
 
@@ -304,7 +304,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-08-03 05:00:51" itemprop="dateModified" datetime="2020-08-03T05:00:51+00:00">2020-08-03</time>
+                <time title="Modified: 2020-08-03 07:04:59" itemprop="dateModified" datetime="2020-08-03T07:04:59+00:00">2020-08-03</time>
               </span>
 
           
@@ -371,7 +371,12 @@
 <li>在分布式训练中，你要将数据集划分为比 worker 数还要多的文件。如果你有一个大数据集存在少数几个文件中，那你就不走运了。此外，这些文件之间的任何大小不平衡都会导致掉队，从而影响训练效果。</li>
 <li>更有可能的是，你没有意识到这些问题！许多实际的数据加载代码只是将 Python 生成器通过 <code>Dataset.from_generator()</code> 转换为 TensorFlow Dataset。当处理小规模数据时，这是没问题的，但是随着数据集的增长，将很快遇到严重的性能问题。</li>
 </ol>
-<h3 id="保存和还原迭代器状态"><a href="#保存和还原迭代器状态" class="headerlink" title="保存和还原迭代器状态"></a>保存和还原迭代器状态</h3><p>TODO</p>
+<h3 id="保存和还原迭代器状态"><a href="#保存和还原迭代器状态" class="headerlink" title="保存和还原迭代器状态"></a>保存和还原迭代器状态</h3><p>如果你希望构建一个可以从错误中恢复的深度学习训练系统，一种常见的方法是使用 checkpoint-restart：定期将训练任务的状态保存到 checkpoint 文件中，并在发生故障时从最近的 checkpoint 中恢复任务。这对于那些可以持续几个小时甚至几天的训练工作尤其重要。但是，保存和恢复训练需要知道当前训练阶段在数据集中的位置。</p>
+<p>例如，如果你在一个 100,000 个元素的数据集上训练，最近的 checkpoint 是在第 50,000 个记录之后执行的，那么你需要确保从第 50,001 条记录恢复，而不是从头开始。对于随机访问接口，这很简单：只需要将索引位置保存为整数，然后从中断的地方恢复训练。对于顺序访问接口，这可能非常困难。总所周知，Python 生成器很难被 pickle（序列化）。TensorFlow Dataset 实验性地支持 checkpoint 和恢复某些类型的数据集，但不支持使用 <code>tf.data.Dataset.from_generator()</code> 创建的数据集。</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>之所以存在上述问题，是因为 <code>tf.data</code> 是围绕循序存取构建的。所以，帮自己个忙：不要让你的数据读取代码完全依赖顺序访问模式。如果你像使用预读取和支持顺序读取的函数式风格，你可以像下面这样包装一个随机读取的接口：</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dataset = RandomAccessDataset()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sequential_access_dataset</span>() -&gt; Iterator:</span></span><br><span class="line">    <span class="keyword">for</span> index <span class="keyword">in</span> range(len(dataset)):</span><br><span class="line">        <span class="keyword">yield</span> dataset[index]</span><br></pre></td></tr></tbody></table></figure>
+<p>从随机到顺序是很容易的，但是走另一条路就难得多了。</p>
+<p>TensorFlow Dataset 是目前推荐的在 TensorFlow 中加载数据的方式，而且这种方式看起来一段时间内都不会改变。本文的许多读者可能会发现自己处于一个不幸的位置，由于不可控因素，他们只能依赖 TensorFlow Dataset。如果你也是这样，我们一直在努力寻找一个能让你的生活更轻松的解决方案 —— 下周请继续关注！</p>
 
     </div>
 
