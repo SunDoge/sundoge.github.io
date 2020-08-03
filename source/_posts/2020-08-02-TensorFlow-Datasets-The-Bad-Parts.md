@@ -129,6 +129,22 @@ TensorFlow推荐的方法是创建TFRecord文件记录文件名，并在文件�
 
 ### 保存和还原迭代器状态
 
-TODO
+如果你希望构建一个可以从错误中恢复的深度学习训练系统，一种常见的方法是使用checkpoint-restart：定期将训练任务的状态保存到checkpoint文件中，并在发生故障时从最近的checkpoint中恢复任务。这对于那些可以持续几个小时甚至几天的训练工作尤其重要。但是，保存和恢复训练需要知道当前训练阶段在数据集中的位置。
 
+例如，如果你在一个100,000个元素的数据集上训练，最近的checkpoint是在第50,000个记录之后执行的，那么你需要确保从第50,001条记录恢复，而不是从头开始。对于随机访问接口，这很简单：只需要将索引位置保存为整数，然后从中断的地方恢复训练。对于顺序访问接口，这可能非常困难。总所周知，Python生成器很难被pickle（序列化）。TensorFlow Dataset实验性地支持checkpoint和恢复某些类型的数据集，但不支持使用`tf.data.Dataset.from_generator()`创建的数据集。
 
+## 解决方案
+
+之所以存在上述问题，是因为 `tf.data` 是围绕循序存取构建的。所以，帮自己个忙：不要让你的数据读取代码完全依赖顺序访问模式。如果你像使用预读取和支持顺序读取的函数式风格，你可以像下面这样包装一个随机读取的接口：
+
+```python
+dataset = RandomAccessDataset()
+
+def sequential_access_dataset() -> Iterator:
+    for index in range(len(dataset)):
+        yield dataset[index]
+```
+
+从随机到顺序是很容易的，但是走另一条路就难得多了。
+
+TensorFlow Dataset是目前推荐的在TensorFlow中加载数据的方式，而且这种方式看起来一段时间内都不会改变。本文的许多读者可能会发现自己处于一个不幸的位置，由于不可控因素，他们只能依赖TensorFlow Dataset。如果你也是这样，我们一直在努力寻找一个能让你的生活更轻松的解决方案——下周请继续关注！
