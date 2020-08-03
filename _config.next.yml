@@ -101,3 +101,7 @@ mediumzoom: true
 
 # Remove unnecessary files after hexo generate.
 minify: true
+
+# Baidu Webmaster tools verification.
+# See: https://ziyuan.baidu.com/site
+baidu_site_verification: dHzRIxxeti
