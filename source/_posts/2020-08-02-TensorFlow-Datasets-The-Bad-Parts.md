@@ -119,10 +119,16 @@ list(dataset.as_numpy_iterator())
 
 TensorFlow的文档承认了这一点并指出：
 
-> Generally it is best if the shard operator is used early in the dataset pipeline.\
+> Generally it is best if the shard operator is used early in the dataset pipeline.  
 通常来说，最好在数据集pipeline的早期使用shard操作。
 
-TensorFlow推荐的方法是创建TFRecord文件记录文件名，并在文件名列表上应用`shard()`。
+TensorFlow推荐的方法是创建TFRecord文件记录文件名，并在文件名列表上应用`shard()`。每个worker接收并处理一组不相交的文件，这样就避免了任何不必要的磁盘 I/O。这种方法是有效的，但存在两个问题：
+
+1. 在分布式训练中，你要将数据集划分为比worker数还要多的文件。如果你有一个大数据集存在少数几个文件中，那你就不走运了。此外，这些文件之间的任何大小不平衡都会导致掉队，从而影响训练效果。
+2. 更有可能的是，你没有意识到这些问题！许多实际的数据加载代码只是将 Python 生成器通过`Dataset.from_generator()`转换为 TensorFlow Dataset。当处理小规模数据时，这是没问题的，但是随着数据集的增长，将很快遇到严重的性能问题。
+
+### 保存和还原迭代器状态
+
 TODO
 
 
