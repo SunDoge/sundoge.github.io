@@ -2,13 +2,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://sundoge.github.io/tags/index.html</loc>
-    
-    <lastmod>2020-08-03</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://sundoge.github.io/2019/09/14/%E4%BD%BF%E7%94%A8Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</loc>
     
     <lastmod>2020-08-03</lastmod>
@@ -45,6 +38,13 @@
   
   <url>
     <loc>https://sundoge.github.io/2020/08/02/%E4%BD%BF%E7%94%A8GitHub-Action%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2Hexo%E5%8D%9A%E5%AE%A2/</loc>
+    
+    <lastmod>2020-08-03</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://sundoge.github.io/tags/index.html</loc>
     
     <lastmod>2020-08-03</lastmod>
     
