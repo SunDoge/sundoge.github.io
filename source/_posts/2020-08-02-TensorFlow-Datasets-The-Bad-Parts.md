@@ -20,7 +20,7 @@ tags:
 
 ## Data Loader Patterns
 
-数据加载接口可以使用两种基本模式，**随机访问（random access）**和**循序访问（sequential access）**。
+数据加载接口可以使用两种基本模式，**随机访问（random access）**和**顺序访问（sequential access）**。
 
 ### Random Access
 
