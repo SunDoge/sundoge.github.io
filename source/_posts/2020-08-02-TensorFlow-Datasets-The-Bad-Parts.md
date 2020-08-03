@@ -105,7 +105,7 @@ list(dataset.as_numpy_iterator())
 
 ### Data Shuffling
 
-在训练一个深度学习模型时，训练集通常在输入模型钱被shuffle，这个操作通常会提升泛化性能。如果我们的数据API只支持顺序访问，要怎样实现random shuffling呢？一个简单但是低效的方法是将尽可能多的数据读入内存并在内存里面shuffle。实际上，这正是`tf.data`的shuffle的做法！
+在训练一个深度学习模型时，训练集通常在输入模型前被shuffle，这个操作通常会提升泛化性能。如果我们的数据API只支持顺序访问，要怎样实现random shuffling呢？一个简单但是低效的方法是将尽可能多的数据读入内存并在内存里面shuffle。实际上，这正是`tf.data`的shuffle的做法！
 
 > This dataset fills a buffer with `buffer_size` elements, then randomly samples elements from this buffer, replacing the selected elements with new elements. For perfect shuffling, a buffer size greater than or equal to the full size of the dataset is required.
 
@@ -115,4 +115,14 @@ list(dataset.as_numpy_iterator())
 
 在进行 data-parallel distributed training 时，每一个worker（通常是GPU）要对每个batch的一个部分（或者叫`shard`）进行训练。为了处理这个常见的任务，`tf.data`提供了一个看起来完美契合我们要求的方法：[`shard(n, i)`](https://www.tensorflow.org/api_docs/python/tf/data/Dataset#shard)将数据分为n个shards，并返回第i个shard，以便在当前worker中继续处理。
 
-不幸的是，这里存在一个陷阱：TODO
+不幸的是，这里存在一个陷阱：`shard()`会遍历整个输入数据集，每次返回第n个记录并忽略其他记录（我的理解是假设n=4，输入数据会按12341234的方式分发，但是每个worker都要读完1234才能选出第n个）！这意味着如果在分布式训练时，对打数据集应用`shard()`操作，每个worker在分布式训练任务中最终将读取整个数据集。如果你正在用64块GPU训练一个模型，这意味着消耗**比预期多64倍的磁盘I/O**。如果你在`shard()`之前进行动态（on-the-fly）数据增强，那么情况会变得更糟——这些数据增强操作会被每个worker冗余地执行。
+
+TensorFlow的文档承认了这一点并指出：
+
+> Generally it is best if the shard operator is used early in the dataset pipeline.\
+通常来说，最好在数据集pipeline的早期使用shard操作。
+
+TensorFlow推荐的方法是创建TFRecord文件记录文件名，并在文件名列表上应用`shard()`。
+TODO
+
+
