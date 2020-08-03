@@ -102,6 +102,37 @@ mediumzoom: true
 # Remove unnecessary files after hexo generate.
 minify: true
 
+
+# ---------------------------------------------------------------
+# SEO Settings
+# See: https://theme-next.js.org/docs/theme-settings/seo
+# ---------------------------------------------------------------
+
+# Disable Baidu transformation on mobile devices.
+disable_baidu_transformation: true
+
+# If true, site-subtitle will be added to index page.
+# Remember to set up your site-subtitle in Hexo `_config.yml` (e.g. subtitle: Subtitle)
+index_with_subtitle: true
+
+# Automatically add external URL with Base64 encrypt & decrypt.
+exturl: true
+
+# Google Webmaster tools verification.
+# See: https://www.google.com/webmasters
+google_site_verification:
+
+# Bing Webmaster tools verification.
+# See: https://www.bing.com/webmaster
+bing_site_verification:
+
+# Yandex Webmaster tools verification.
+# See: https://webmaster.yandex.ru
+yandex_site_verification:
+
 # Baidu Webmaster tools verification.
 # See: https://ziyuan.baidu.com/site
 baidu_site_verification: dHzRIxxeti
+
+# Enable baidu push so that the blog will push the url to baidu automatically which is very helpful for SEO.
+baidu_push: true
