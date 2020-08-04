@@ -115,7 +115,7 @@ list(dataset.as_numpy_iterator())
 
 在进行 data-parallel distributed training 时，每一个worker（通常是GPU）要对每个batch的一个部分（或者叫`shard`）进行训练。为了处理这个常见的任务，`tf.data`提供了一个看起来完美契合我们要求的方法：[`shard(n, i)`](https://www.tensorflow.org/api_docs/python/tf/data/Dataset#shard)将数据分为n个shards，并返回第i个shard，以便在当前worker中继续处理。
 
-不幸的是，这里存在一个陷阱：`shard()`会遍历整个输入数据集，每次返回第n个记录并忽略其他记录（我的理解是假设n=4，输入数据会按12341234的方式分发，但是每个worker都要读完1234才能选出第n个）！这意味着如果在分布式训练时，对打数据集应用`shard()`操作，每个worker在分布式训练任务中最终将读取整个数据集。如果你正在用64块GPU训练一个模型，这意味着消耗**比预期多64倍的磁盘I/O**。如果你在`shard()`之前进行动态（on-the-fly）数据增强，那么情况会变得更糟——这些数据增强操作会被每个worker冗余地执行。
+不幸的是，这里存在一个陷阱：`shard()`会遍历整个输入数据集，每次返回第n个记录并忽略其他记录（我的理解是假设num_workers=4，输入数据会按12341234的方式分发，但是每个worker都要读完1234才能选出第n个）！这意味着如果在分布式训练时，对打数据集应用`shard()`操作，每个worker在分布式训练任务中最终将读取整个数据集。如果你正在用64块GPU训练一个模型，这意味着消耗**比预期多64倍的磁盘I/O**。如果你在`shard()`之前进行动态（on-the-fly）数据增强，那么情况会变得更糟——这些数据增强操作会被每个worker冗余地执行。
 
 TensorFlow的文档承认了这一点并指出：
 
