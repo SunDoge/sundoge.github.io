@@ -45,7 +45,7 @@
 </blockquote>
 <p>并把它设为 default branch。然后执行</p>
 <figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">hexo clean &amp;&amp; hexo deploy</span><br></pre></td></tr></tbody></table></figure>
-<p>编译好的文件会推送的 published 分支。</p>
+<p>编译好的文件会被推送到 published 分支。</p>
 <h2 id="为什么使用Hexo"><a href="#为什么使用Hexo" class="headerlink" title="为什么使用Hexo"></a>为什么使用 Hexo</h2><p>Hugo 虽然性能好，但是大部分主题年久失修，而且质量都不高，从 jekyll 和 hexo 移植的主题也大多有问题，缺少原有的部分功能。最后没办法，还是要用前端写的工具。</p>
 <p>为了方便以后的写作，我计划使用 Rust 开发一个 hexo-cli 的子集，只支持 theme-next 的正确编译🕊🕊🕊​。</p>
 ]]></content>
@@ -167,6 +167,21 @@
 ]]></content>
       <tags>
         <tag>GitHub Action</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>解决 shallow update not allowed 的问题</title>
+    <url>/2020/08/04/%E8%A7%A3%E5%86%B3shallow-update-not-allowed%E7%9A%84%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<p>今天 push 代码的时候遇到一个问题：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">Counting objects: 47, done.</span><br><span class="line">Delta compression using up to 4 threads.</span><br><span class="line">Compressing objects: 100% (44/44), done.</span><br><span class="line">Writing objects: 100% (47/47), 573.15 KiB | 0 bytes/s, done.</span><br><span class="line">Total 47 (delta 11), reused 0 (delta 0)</span><br><span class="line">remote: Resolving deltas: 100% (11/11), done.</span><br><span class="line">To github.com:SunDoge/xxxx.git</span><br><span class="line"> ! [remote rejected] master -&gt; master (shallow update not allowed)</span><br><span class="line">error: failed to push some refs to 'git@github.com:SunDoge/xxxx.git'</span><br></pre></td></tr></tbody></table></figure>
+<p>找到 stackoverflow 上的一个答案</p>
+<p><span class="exturl" data-url="aHR0cHM6Ly9zdGFja292ZXJmbG93LmNvbS9xdWVzdGlvbnMvMjg5ODM4NDIvcmVtb3RlLXJlamVjdGVkLXNoYWxsb3ctdXBkYXRlLW5vdC1hbGxvd2VkLWFmdGVyLWNoYW5naW5nLWdpdC1yZW1vdGUtdXJs">https://stackoverflow.com/questions/28983842/remote-rejected-shallow-update-not-allowed-after-changing-git-remote-url<i class="fa fa-external-link-alt"></i></span></p>
+<p>那么问题也就很明显了，我在 clone 原仓库时用了 <code>git clone --depth 1</code>，导致本地为 shallow repo。解决方法也很简单</p>
+<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">git fetch --unshallow origin</span><br></pre></td></tr></tbody></table></figure>
+<p><code>origin</code> 就是原仓库。fetch 完就能正常 push 了。</p>
+]]></content>
+      <tags>
+        <tag>Git</tag>
       </tags>
   </entry>
 </search>
