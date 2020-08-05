@@ -1,5 +1,5 @@
 ---
-title: 在Hyper-V上安装manjaro
+title: 在Hyper-V上安装Manjaro
 date: 2019-09-15 19:03:39
 tags: 
   - Manjaro
