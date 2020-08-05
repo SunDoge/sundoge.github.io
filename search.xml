@@ -55,7 +55,7 @@
       </tags>
   </entry>
   <entry>
-    <title>在 Hyper-V 上安装 manjaro</title>
+    <title>在 Hyper-V 上安装 Manjaro</title>
     <url>/2019/09/15/%E5%9C%A8Hyper-V%E4%B8%8A%E5%AE%89%E8%A3%85manjaro/</url>
     <content><![CDATA[<blockquote>
 <p><span class="exturl" data-url="aHR0cHM6Ly9mb3J1bS5tYW5qYXJvLm9yZy90L2hvdy10by1ydW4tbWFuamFyby1vbi13aW5kb3dzLTEwLWh5cGVyLXYtZ2VuMi81NDA5Mi8yMA==">https://forum.manjaro.org/t/how-to-run-manjaro-on-windows-10-hyper-v-gen2/54092/20<i class="fa fa-external-link-alt"></i></span></p>
@@ -182,6 +182,22 @@
 ]]></content>
       <tags>
         <tag>Git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Manjaro 主机插耳机没声音</title>
+    <url>/2020/08/05/Manjaro%E4%B8%BB%E6%9C%BA%E6%8F%92%E8%80%B3%E6%9C%BA%E6%B2%A1%E5%A3%B0%E9%9F%B3/</url>
+    <content><![CDATA[<h2 id="安装PulseAudio-Volumne-Control"><a href="#安装PulseAudio-Volumne-Control" class="headerlink" title="安装PulseAudio Volumne Control"></a>安装 <code>PulseAudio Volumne Control</code></h2><p>有些主机插入耳机之后没有声音，因为系统自带的音量控制无法检测到前面板。可以安装 <code>PulseAudio Volumne Control</code> 来解决这个问题。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/440661/1575205500923-323cf1c7-8ac8-434e-a386-83182e404ffd.png#align=left&amp;display=inline&amp;height=620&amp;name=image.png&amp;originHeight=620&amp;originWidth=808&amp;size=29376&amp;status=done&amp;style=none&amp;width=808" alt="image.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/440661/1575205526115-3e0c356f-d7fe-4f57-b048-0faf7888ed8c.png#align=left&amp;display=inline&amp;height=620&amp;name=image.png&amp;originHeight=620&amp;originWidth=808&amp;size=35787&amp;status=done&amp;style=none&amp;width=808" alt="image.png"></p>
+<h2 id="保存Profile"><a href="#保存Profile" class="headerlink" title="保存Profile"></a>保存 Profile</h2><p>就算解决了耳机没声音的问题，重启之后配置也会丢失，下次开机还要重新配置一边。可以通过命令行将当前的 profile 保存下来，重启之后也不会丢失。</p>
+<blockquote>
+<p><span class="exturl" data-url="aHR0cHM6Ly91bml4LnN0YWNrZXhjaGFuZ2UuY29tL3F1ZXN0aW9ucy80NjI2NzAvc2V0LWRlZmF1bHQtcHJvZmlsZS1mb3ItcHVsc2VhdWRpbw==">https://unix.stackexchange.com/questions/462670/set-default-profile-for-pulseaudio<i class="fa fa-external-link-alt"></i></span></p>
+</blockquote>
+<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">pactl <span class="built_in">set</span>-card-profile 0 output:analog-stereo</span><br></pre></td></tr></tbody></table></figure>]]></content>
+      <tags>
+        <tag>Manjaro</tag>
+        <tag>Linux</tag>
       </tags>
   </entry>
 </search>
