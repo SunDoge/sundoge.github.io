@@ -136,3 +136,7 @@ baidu_site_verification: dHzRIxxeti
 
 # Enable baidu push so that the blog will push the url to baidu automatically which is very helpful for SEO.
 baidu_push: true
+
+links:
+  #Title: http://yoursite.com
+  TripleZ: https://blog.triplez.cn/
