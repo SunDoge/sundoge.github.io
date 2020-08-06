@@ -194,7 +194,12 @@
 <blockquote>
 <p><span class="exturl" data-url="aHR0cHM6Ly91bml4LnN0YWNrZXhjaGFuZ2UuY29tL3F1ZXN0aW9ucy80NjI2NzAvc2V0LWRlZmF1bHQtcHJvZmlsZS1mb3ItcHVsc2VhdWRpbw==">https://unix.stackexchange.com/questions/462670/set-default-profile-for-pulseaudio<i class="fa fa-external-link-alt"></i></span></p>
 </blockquote>
-<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">pactl <span class="built_in">set</span>-card-profile 0 output:analog-stereo</span><br></pre></td></tr></tbody></table></figure>]]></content>
+<p>先确定当前 profile 的名字</p>
+<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">pacmd list-cards | grep <span class="string">'active profile'</span></span><br></pre></td></tr></tbody></table></figure>
+<p>然后在 <code>/etc/pulse/default.pa</code> 中加一行</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">set-card-profile &lt;cardindex&gt; &lt;profilename&gt;</span><br></pre></td></tr></tbody></table></figure>
+<p>我的是</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">set-card-profile 0 output:analog-stereo</span><br></pre></td></tr></tbody></table></figure>]]></content>
       <tags>
         <tag>Manjaro</tag>
         <tag>Linux</tag>

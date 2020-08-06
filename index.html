@@ -22,7 +22,7 @@
 
 <script class="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"sundoge.github.io","root":"/","scheme":"Gemini","version":"8.0.0-rc.5","exturl":true,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"path":"search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+    var CONFIG = {"hostname":"sundoge.github.io","root":"/","scheme":"Gemini","version":"8.0.0-rc.5","exturl":true,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"path":"search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
   </script>
 
   <meta property="og:type" content="website">
@@ -300,10 +300,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-08-05 23:11:20 / Modified: 16:03:17" itemprop="dateCreated datePublished" datetime="2020-08-05T23:11:20+00:00">2020-08-05</time>
+              <time title="Created: 2020-08-05 23:11:20" itemprop="dateCreated datePublished" datetime="2020-08-05T23:11:20+00:00">2020-08-05</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-08-06 07:00:00" itemprop="dateModified" datetime="2020-08-06T07:00:00+00:00">2020-08-06</time>
+              </span>
 
           
             <span id="/2020/08/05/Manjaro%E4%B8%BB%E6%9C%BA%E6%8F%92%E8%80%B3%E6%9C%BA%E6%B2%A1%E5%A3%B0%E9%9F%B3/" class="post-meta-item leancloud_visitors" data-flag-title="Manjaro 主机插耳机没声音" title="Views">
@@ -342,7 +348,12 @@
 <blockquote>
 <p><span class="exturl" data-url="aHR0cHM6Ly91bml4LnN0YWNrZXhjaGFuZ2UuY29tL3F1ZXN0aW9ucy80NjI2NzAvc2V0LWRlZmF1bHQtcHJvZmlsZS1mb3ItcHVsc2VhdWRpbw==">https://unix.stackexchange.com/questions/462670/set-default-profile-for-pulseaudio<i class="fa fa-external-link-alt"></i></span></p>
 </blockquote>
-<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pactl <span class="built_in">set</span>-card-profile 0 output:analog-stereo</span><br></pre></td></tr></tbody></table></figure>
+<p>先确定当前 profile 的名字</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pacmd list-cards | grep <span class="string">'active profile'</span></span><br></pre></td></tr></tbody></table></figure>
+<p>然后在 <code>/etc/pulse/default.pa</code> 中加一行</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set-card-profile &lt;cardindex&gt; &lt;profilename&gt;</span><br></pre></td></tr></tbody></table></figure>
+<p>我的是</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set-card-profile 0 output:analog-stereo</span><br></pre></td></tr></tbody></table></figure>
       
     </div>
 
@@ -394,7 +405,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-08-05 16:03:17" itemprop="dateModified" datetime="2020-08-05T16:03:17+00:00">2020-08-05</time>
+                <time title="Modified: 2020-08-06 07:00:00" itemprop="dateModified" datetime="2020-08-06T07:00:00+00:00">2020-08-06</time>
               </span>
 
           
@@ -486,7 +497,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-08-05 16:03:17" itemprop="dateModified" datetime="2020-08-05T16:03:17+00:00">2020-08-05</time>
+                <time title="Modified: 2020-08-06 07:00:00" itemprop="dateModified" datetime="2020-08-06T07:00:00+00:00">2020-08-06</time>
               </span>
 
           
@@ -611,7 +622,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-08-05 16:03:17" itemprop="dateModified" datetime="2020-08-05T16:03:17+00:00">2020-08-05</time>
+                <time title="Modified: 2020-08-06 07:00:00" itemprop="dateModified" datetime="2020-08-06T07:00:00+00:00">2020-08-06</time>
               </span>
 
           
@@ -709,7 +720,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-08-05 16:03:17" itemprop="dateModified" datetime="2020-08-05T16:03:17+00:00">2020-08-05</time>
+                <time title="Modified: 2020-08-06 07:00:00" itemprop="dateModified" datetime="2020-08-06T07:00:00+00:00">2020-08-06</time>
               </span>
 
           
@@ -807,7 +818,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-08-05 16:03:17" itemprop="dateModified" datetime="2020-08-05T16:03:17+00:00">2020-08-05</time>
+                <time title="Modified: 2020-08-06 07:00:00" itemprop="dateModified" datetime="2020-08-06T07:00:00+00:00">2020-08-06</time>
               </span>
 
           
@@ -894,7 +905,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-08-05 16:03:17" itemprop="dateModified" datetime="2020-08-05T16:03:17+00:00">2020-08-05</time>
+                <time title="Modified: 2020-08-06 07:00:00" itemprop="dateModified" datetime="2020-08-06T07:00:00+00:00">2020-08-06</time>
               </span>
 
           
@@ -984,7 +995,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-08-05 16:03:17" itemprop="dateModified" datetime="2020-08-05T16:03:17+00:00">2020-08-05</time>
+                <time title="Modified: 2020-08-06 07:00:00" itemprop="dateModified" datetime="2020-08-06T07:00:00+00:00">2020-08-06</time>
               </span>
 
           
