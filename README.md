@@ -1,2 +1,3 @@
 # sundoge.github.io
-None
+
+My blog.
