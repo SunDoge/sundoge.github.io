@@ -33,7 +33,7 @@
 <meta property="og:description" content="TypedArgs v0.4.0 发布了。大部分接口与 v0.3.x 没有差别，但是少了一个 attribute，所以必须升一个 minor version。这篇博客主要记录我的几个设计失误。 argparse.ArgumentParser 不能被 pickleTypedArgs 内部是使用 Python 标准库 argparse 实现的。一个标准的 argparse 使用流程如下： 123456">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-08-08T16:15:46.000Z">
-<meta property="article:modified_time" content="2020-08-08T08:17:23.112Z">
+<meta property="article:modified_time" content="2020-08-08T08:21:08.899Z">
 <meta property="article:author" content="SunDoge">
 <meta property="article:tag" content="Python">
 <meta property="article:tag" content="Announcement">
@@ -310,7 +310,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-08-08 16:15:46 / Modified: 08:17:23" itemprop="dateCreated datePublished" datetime="2020-08-08T16:15:46+00:00">2020-08-08</time>
+              <time title="Created: 2020-08-08 16:15:46 / Modified: 08:21:08" itemprop="dateCreated datePublished" datetime="2020-08-08T16:15:46+00:00">2020-08-08</time>
             </span>
 
           
@@ -343,17 +343,17 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p><a href="(https://github.com/SunDoge/typed-args)">TypedArgs</a> v0.4.0 发布了。大部分接口与 v0.3.x 没有差别，但是少了一个 attribute，所以必须升一个 minor version。这篇博客主要记录我的几个设计失误。</p>
+        <p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL1N1bkRvZ2UvdHlwZWQtYXJncw==">TypedArgs<i class="fa fa-external-link-alt"></i></span> v0.4.0 发布了。大部分接口与 v0.3.x 没有差别，但是少了一个 attribute，所以必须升一个 minor version。这篇博客主要记录我的几个设计失误。</p>
 <h2 id="argparse-ArgumentParser不能被pickle"><a href="#argparse-ArgumentParser不能被pickle" class="headerlink" title="argparse.ArgumentParser不能被pickle"></a><code>argparse.ArgumentParser</code> 不能被 pickle</h2><p>TypedArgs 内部是使用 Python 标准库 <code>argparse</code> 实现的。一个标准的 <code>argparse</code> 使用流程如下：</p>
 <figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> argparse</span><br><span class="line"></span><br><span class="line">parser = argparse.ArgumentParser(prog=<span class="string">'PROG'</span>)</span><br><span class="line">parser.add_argument(<span class="string">'data'</span>, help=<span class="string">'path to data'</span>)</span><br><span class="line">args = parser.parse_args([<span class="string">'data-path'</span>])</span><br><span class="line"></span><br><span class="line"><span class="keyword">assert</span> args.data == <span class="string">'data-path'</span></span><br></pre></td></tr></tbody></table></figure>
-<p>首先，<code>ArgumentParser</code> 支持指定显示的 program 名，那 <a href="(https://github.com/SunDoge/typed-args)">TypedArgs</a> 也应该支持。那一个很自然的想法就是让 parser 成为 <code>class TypedArgs</code> 的一个 attribute，这样解析 arguments 的时候就能自由访问。</p>
+<p>首先，<code>ArgumentParser</code> 支持指定显示的 program 名，那<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL1N1bkRvZ2UvdHlwZWQtYXJncw=="> TypedArgs<i class="fa fa-external-link-alt"></i></span>也应该支持。那一个很自然的想法就是让 parser 成为 <code>class TypedArgs</code> 的一个 attribute，这样解析 arguments 的时候就能自由访问。</p>
 <figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> dataclasses <span class="keyword">import</span> dataclass, field</span><br><span class="line"><span class="keyword">from</span> typed_args <span class="keyword">import</span> TypedArgs</span><br><span class="line"><span class="keyword">import</span> argparse</span><br><span class="line"></span><br><span class="line"><span class="meta">@dataclass</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Args</span>(<span class="params">TypedArgs</span>):</span></span><br><span class="line">    parser: field(default_factory=<span class="keyword">lambda</span>: argparse.ArgumentParser(prog=<span class="string">'PROG'</span>))</span><br></pre></td></tr></tbody></table></figure>
 <p>但是这带来了一个问题，我并没有意识到 <code>ArgumentParser</code> 是不能被 pickle（序列化）的。虽然平时使用没有问题，但是到了多进程环境（比如 PyTorch 的 <code>DistributedDataParallel</code>）就会报错。为此。v0.3.x 临时打了一个 patch，在解析完 arguements 之后，将 <code>self.parser = None</code>。其实这个时候已经造成了 API 变动，minor version 应该 + 1，但是当时思想出了问题，只升了 patch version。当然，没有人会访问 parser，所以理论上问题不大。</p>
 <p>v0.4.0 从根本上解决了这个问题，parser 只在解析 arguments 被生成，解析完就回收，不再作为 <code>TypedArgs</code> 上的一个 attribute。</p>
 <h2 id="如何让IDE正确识别出类型"><a href="#如何让IDE正确识别出类型" class="headerlink" title="如何让IDE正确识别出类型"></a>如何让 IDE 正确识别出类型</h2><p>PyCharm 和 VS Code 对于类型推倒总是有不同的想法。PyCharm 认为 <code>=</code> 后面的才是正确类型，直接忽略了我的 annotation。VS Code 就蠢一点，认为我的 annotation 是对的，但是使用的时候又自作聪明不显示我标注的类型。最后我采用了现在的方案：</p>
 <figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">foo: str = func()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span>() -&gt; Any:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></tbody></table></figure>
 <p>这样写，两个 IDE 都能正确推导类型，而且也比较符合常识。</p>
-<h2 id="使用GitHub-Action自动发布到pypi-org"><a href="#使用GitHub-Action自动发布到pypi-org" class="headerlink" title="使用GitHub Action自动发布到pypi.org"></a>使用 GitHub Action 自动发布到 <a href="(https://pypi.org/)">pypi.org</a></h2><p>GitHub 很贴心，GitHub 整个模板都给你弄好了，你只需要去 <code>Settings &gt; Secrets</code> 填两个参数（<code>PYPI_USERNAME</code> 和 <code>PYPI_PASSWORD</code>）。之后每次 push 带 tag，或者在 GitHub 上创建 release 的时候（创建 release 会创建一个 tag），就会触发这个 GitHub Action，将这个库发布到 <a href="(https://pypi.org/)">pypi.org</a>。</p>
+<h2 id="使用GitHub-Action自动发布到pypi-org"><a href="#使用GitHub-Action自动发布到pypi-org" class="headerlink" title="使用GitHub Action自动发布到pypi.org"></a>使用 GitHub Action 自动发布到<span class="exturl" data-url="aHR0cHM6Ly9weXBpLm9yZy8="> pypi.org<i class="fa fa-external-link-alt"></i></span></h2><p>GitHub 很贴心，GitHub 整个模板都给你弄好了，你只需要去 <code>Settings &gt; Secrets</code> 填两个参数（<code>PYPI_USERNAME</code> 和 <code>PYPI_PASSWORD</code>）。之后每次 push 带 tag，或者在 GitHub 上创建 release 的时候（创建 release 会创建一个 tag），就会触发这个 GitHub Action，将这个库发布到<span class="exturl" data-url="aHR0cHM6Ly9weXBpLm9yZy8="> pypi.org<i class="fa fa-external-link-alt"></i></span>。</p>
 
     </div>
 
