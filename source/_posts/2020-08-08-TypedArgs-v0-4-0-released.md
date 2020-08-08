@@ -58,5 +58,5 @@ def func() -> Any:
 GitHub很贴心，GitHub整个模板都给你弄好了，你只需要去`Settings > Secrets`填两个参数（`PYPI_USERNAME`和`PYPI_PASSWORD`）。之后每次push带tag，或者在GitHub上创建release的时候（创建release会创建一个tag），就会触发这个GitHub Action，将这个库发布到[pypi.org]。
 
 
-[TypedArgs]: (https://github.com/SunDoge/typed-args)
-[pypi.org]: (https://pypi.org/)
+[TypedArgs]: https://github.com/SunDoge/typed-args
+[pypi.org]: https://pypi.org/
