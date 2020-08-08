@@ -4,7 +4,9 @@ tags:
   - Python
   - Announcement
   - GitHub Action
+date: 2020-08-08 16:15:46
 ---
+
 
 [TypedArgs] v0.4.0发布了。大部分接口与v0.3.x没有差别，但是少了一个attribute，所以必须升一个minor version。这篇博客主要记录我的几个设计失误。
 
