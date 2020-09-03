@@ -257,4 +257,18 @@
         <tag>GitHub Action</tag>
       </tags>
   </entry>
+  <entry>
+    <title>aria2 无法下载 Amazon S3 的文件</title>
+    <url>/2020/09/03/aria2%E6%97%A0%E6%B3%95%E4%B8%8B%E8%BD%BDAmazon-S3%E7%9A%84%E6%96%87%E4%BB%B6/</url>
+    <content><![CDATA[<p>今天用<span class="exturl" data-url="aHR0cHM6Ly9hcmlhMi5naXRodWIuaW8v"> aria2<i class="fa fa-external-link-alt"></i></span>下载 <code>s3</code> 上的文件时，出现以下错误：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">09/03 15:34:47 [ERROR] CUID#7 - Download aborted. URI=https://s3.eu-central-1.amazonaws.com/avg-kitti/data_object_image_2.zip</span><br><span class="line">Exception: [AbstractCommand.cc:351] errorCode=1 URI=https://s3.eu-central-1.amazonaws.com/avg-kitti/data_object_image_2.zip</span><br><span class="line">  -&gt; [SocketCore.cc:1018] errorCode=1 SSL/TLS handshake failure: The TLS connection was non-properly terminated.</span><br></pre></td></tr></tbody></table></figure>
+
+<p>但是用 <code>wget</code> 却一切正常。开始怀疑 <code>s3</code> 限制连接数，但是减少线程数仍然无法下载。最后在一个不相关的<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FyaWEyL2FyaWEyL2lzc3Vlcy81MDI="> issue #502<i class="fa fa-external-link-alt"></i></span>里面找到了解决办法。似乎问题是 <code>Async DNS</code> 引起的。加上 <code>--async-dns=false</code> 后问题解决。</p>
+<p>暂时不清楚 <code>Async DNS</code> 干了什么，如果以后看源码弄清楚了再补充。</p>
+]]></content>
+      <tags>
+        <tag>aria2</tag>
+        <tag>Amazon S3</tag>
+      </tags>
+  </entry>
 </search>
