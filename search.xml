@@ -252,9 +252,9 @@
 <h2 id="使用GitHub-Action自动发布到pypi-org"><a href="#使用GitHub-Action自动发布到pypi-org" class="headerlink" title="使用GitHub Action自动发布到pypi.org"></a>使用 GitHub Action 自动发布到<span class="exturl" data-url="aHR0cHM6Ly9weXBpLm9yZy8="> pypi.org<i class="fa fa-external-link-alt"></i></span></h2><p>GitHub 很贴心，GitHub 整个模板都给你弄好了，你只需要去 <code>Settings &gt; Secrets</code> 填两个参数（<code>PYPI_USERNAME</code> 和 <code>PYPI_PASSWORD</code>）。之后每次 push 带 tag，或者在 GitHub 上创建 release 的时候（创建 release 会创建一个 tag），就会触发这个 GitHub Action，将这个库发布到<span class="exturl" data-url="aHR0cHM6Ly9weXBpLm9yZy8="> pypi.org<i class="fa fa-external-link-alt"></i></span>。</p>
 ]]></content>
       <tags>
-        <tag>Python</tag>
         <tag>Announcement</tag>
         <tag>GitHub Action</tag>
+        <tag>Python</tag>
       </tags>
   </entry>
   <entry>
@@ -285,6 +285,28 @@
 ]]></content>
       <tags>
         <tag>Latex</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python 中如何设计用户友好的 decorator</title>
+    <url>/2020/10/24/Python%E4%B8%AD%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E7%94%A8%E6%88%B7%E5%8F%8B%E5%A5%BD%E7%9A%84decorator/</url>
+    <content><![CDATA[<p>这篇文章假定读者对 python 中的装饰器有一定的了解。</p>
+<p>我们先来设计一个最简单的 decorator：</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f1</span>(<span class="params">func</span>):</span></span><br><span class="line">    print(<span class="string">'f1'</span>)</span><br><span class="line">    <span class="keyword">return</span> func</span><br><span class="line"></span><br><span class="line"><span class="meta">@f1</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f0</span>(<span class="params">x</span>):</span></span><br><span class="line">    print(<span class="string">'x:'</span>, x)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    f0(<span class="string">'asdf'</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>当我们执行这个脚本的时候，我们很自然会得到下面的输出</p>
+<figure class="highlight text"><table><tbody><tr><td class="code"><pre><span class="line">f1</span><br><span class="line">x: asdf</span><br></pre></td></tr></tbody></table></figure>
+
+<p>这个时候，我们只能写 <code>@f1</code>，而不能写 <code>@f1()</code>。如果我们把 <code>@f1</code> 改成 <code>@f1()</code>，会得到以下错误：</p>
+<figure class="highlight text"><table><tbody><tr><td class="code"><pre><span class="line">TypeError: f1() missing 1 required positional argument: 'func'</span><br></pre></td></tr></tbody></table></figure>
+
+<p>因为被装饰的函数会被当成第一个参数（positional argument），而加上括号之后，相当于少了第一个参数。对于使用者来说，要记忆某个 decorator 是否要带括号是个不小的心智负担。你可能会想，在使用 python 标准库中的 dataclasses 时，<code>@dataclass</code> 和 <code>@dataclass()</code> 都是合法的，为什么这里就不行了。其实想实现 dataclasses 类似的功能其实也很简单。我们只要判断 func 是否为 None，如果是，就返回一个新的 decorator。</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f1</span>(<span class="params">func=None</span>):</span></span><br><span class="line">    print(<span class="string">'f1'</span>)</span><br><span class="line">    <span class="keyword">return</span> func</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f2</span>(<span class="params">func=None</span>):</span></span><br><span class="line">    <span class="keyword">if</span> func <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">        <span class="keyword">return</span> f1</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> f1(func=func)</span><br><span class="line"></span><br><span class="line"><span class="meta">@f2()</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f0</span>(<span class="params">x</span>):</span></span><br><span class="line">    print(<span class="string">'x:'</span>, x)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>这样一切都正常了。</p>
+]]></content>
+      <tags>
+        <tag>Python</tag>
       </tags>
   </entry>
 </search>
